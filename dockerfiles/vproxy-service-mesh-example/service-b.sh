@@ -1,12 +1,11 @@
 #!/bin/sh
 
 # launch sidecar
-nohup /vproxy                                \
+nohup java -Deploy=Sidecar -jar /vproxy.jar  \
     resp-controller 0.0.0.0:16379 mypassw0rd \
     noStdIOController                        \
     sigIntDirectlyShutdown                   \
-    serviceMeshConfig /sidecar.conf          \
-    noLoadLast                               \
+    serviceMeshConfig /service-mesh.conf     \
                                              \
     2>&1 > /vproxy.log &
 
