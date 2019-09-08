@@ -17,4 +17,16 @@
 # wait for a while
 curl localhost:8080/service-a
 curl localhost:8080/service-b
+
+# you may stop a container
+# the node will be automatically
+# deregistered before exiting
+docker stop example-service-a2
+```
+
+## clean
+
+```
+./stop.sh
+./remove-image.sh
 ```

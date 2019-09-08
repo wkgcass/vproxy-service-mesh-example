@@ -34,7 +34,7 @@ public class Frontend {
         // http server
         HttpServer httpServer = vertx.createHttpServer();
         httpServer.requestHandler(router);
-        httpServer.listen(listenPort);
+        httpServer.listen(listenPort, "0.0.0.0");
     }
 
     private static void handleRouter(Router router) {

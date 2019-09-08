@@ -1,13 +1,31 @@
-#!/bin/sh
+#!/bin/bash
+
+term_func() {
+  pid=$1
+  echo "shell received SIGTERM, will kill $pid"
+  kill -SIGTERM $pid
+  wait $pid
+}
+
+pid_sidecar=
+pid_java=
 
 # launch sidecar
-nohup java -Deploy=Sidecar -jar /vproxy.jar  \
+nohup java -jar /vproxy.jar                  \
+    noLoadLast noSave                        \
     resp-controller 0.0.0.0:16379 mypassw0rd \
+    http-controller 0.0.0.0:18080            \
     noStdIOController                        \
     sigIntDirectlyShutdown                   \
-    serviceMeshConfig /service-mesh.conf     \
+    discoveryConfig /discovery.conf          \
                                              \
-    2>&1 > /vproxy.log &
+    &
+pid_sidecar=$!
 
 # launch service b
-java -cp /example.jar net.cassite.vproxy.example.servicemesh.Service b
+java -cp /example.jar net.cassite.vproxy.example.servicemesh.Service b &
+pid_java=$!
+
+# handle signal
+trap "term_func $pid_java" TERM
+wait $pid_java

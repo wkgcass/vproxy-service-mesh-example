@@ -3,3 +3,5 @@
 .idea/
 build/
 .gradle/
+
+!dockerfiles/vproxy-service-mesh-example/vproxy.jar

@@ -1,8 +1,5 @@
 #!/usr/bin/env bash
 
-# start lb
-docker run --name 'example-lb' -d vproxy-service-mesh-example /lb.sh
-
 # start frontend
 docker run --name 'example-frontend' -d -p 8080:8080 vproxy-service-mesh-example /frontend.sh
 
