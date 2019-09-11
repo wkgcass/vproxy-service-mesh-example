@@ -30,3 +30,7 @@ docker stop example-service-a2
 ./stop.sh
 ./remove-image.sh
 ```
+
+## client
+
+I provided a client for you to use in your own project, check `ServiceRegisterClient.java` for more info.
