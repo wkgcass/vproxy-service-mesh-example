@@ -27,15 +27,7 @@ The `Service` program is designed to be able to automatically register itself to
 ```
 ./make.sh
 ./run.sh
-
-# wait for a while
-curl localhost:8080/service-a
-curl localhost:8080/service-b
-
-# you may stop a container
-# the node will be automatically
-# deregistered before exiting
-docker stop example-service-a2
+./check.sh
 ```
 
 ## clean

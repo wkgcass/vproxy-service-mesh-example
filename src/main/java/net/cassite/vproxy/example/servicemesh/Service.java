@@ -10,13 +10,15 @@ import java.lang.management.ManagementFactory;
 
 public class Service {
     private static String service;
+    private static int weight;
     private static String host;
 
     public static void main(String[] args) {
-        if (args.length < 1) {
+        if (args.length < 2) {
             throw new IllegalArgumentException();
         }
         service = args[0];
+        weight = Integer.parseInt(args[1]);
         host = ManagementFactory.getRuntimeMXBean().getName().split("@")[1];
 
         Vertx vertx = Vertx.vertx();
@@ -34,7 +36,7 @@ public class Service {
         // http server
         HttpServer httpServer = vertx.createHttpServer();
         httpServer.requestHandler(router);
-        vproxyClient.register("eth0").setHandler(r -> {
+        vproxyClient.register("eth0", new ServiceRegisterClient.NodeConfig().setWeight(weight)).setHandler(r -> {
             if (r.failed()) {
                 System.out.println("register service " + service + " failed: " + r.cause().getMessage());
                 System.exit(0);
@@ -89,7 +91,8 @@ public class Service {
         rctx.response().end("{" +
             "\"service\":\"" + service + "\"," +
             "\"host\":\"" + host + "\"," +
-            "\"port\":" + rctx.request().localAddress().port() +
+            "\"port\":" + rctx.request().localAddress().port() + "," +
+            "\"weight\":" + weight +
             "}\r\n");
     }
 }

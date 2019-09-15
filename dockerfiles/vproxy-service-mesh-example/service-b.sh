@@ -1,5 +1,7 @@
 #!/bin/bash
 
+weight=$1
+
 term_func() {
   pid=$1
   echo "shell received SIGTERM, will kill $pid"
@@ -23,7 +25,7 @@ nohup java -jar /vproxy.jar                  \
 pid_sidecar=$!
 
 # launch service b
-java -cp /example.jar net.cassite.vproxy.example.servicemesh.Service b &
+java -cp /example.jar net.cassite.vproxy.example.servicemesh.Service b "$weight" &
 pid_java=$!
 
 # handle signal
